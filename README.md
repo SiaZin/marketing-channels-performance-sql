@@ -45,6 +45,9 @@ The analysis covers:
 
 In this project, CAC refers to advertising spend per registered user. LTV values were provided with the dataset.
 
+> [!NOTE]
+> [ukr_marketing_channels_performance.pdf](ukr_marketing_channels_performance.pdf) - Full analysis in Ukrainian
+
 ## Getting to know the data  
 
 Before preparing the data, I checked for missing and non-positive values, duplicate snapshots, the reporting date range, and the number of snapshots per ad per day.
