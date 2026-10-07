@@ -136,6 +136,7 @@ To prepare daily metrics, I used two steps:
 
 <details>
 <summary>SQL query: preparing daily metrics</summary>
+  
 ```
 WITH latest_snapshot AS(
 SELECT source,
@@ -208,3 +209,4 @@ ORDER BY ad_id, date;
 -- ---> "marketing_ads_deduplicated" table created
 ```
 </details>
+
