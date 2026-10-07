@@ -258,3 +258,77 @@ ORDER BY source;
 </details>
 
 ## Results
+### 1. Which channel has the lowest CAC?
+
+**Meta** has the lowest cost per registered user at approximately **$3.11**, compared with **$5.38 for TikTok** and **$14.11 for Google**.
+
+### 2. Which stage of the acquisition funnel has the lowest conversion rate?
+
+The lowest conversion rate occurs at the **Impression → Click** stage. CTR is below 2% across all channels, meaning fewer than two clicks are generated per 100 impressions.
+
+Conversion rates are considerably higher at the subsequent stages:
+- **Click → Install:** approximately 31–40%.
+- **Install → Registration:** approximately 88–96%.
+
+TikTok has the highest CTR but the lowest conversion rates at both subsequent stages. This suggests that its stronger ability to generate clicks does not translate into equally strong downstream conversion. Audience targeting and alignment between the ad and the app experience are possible areas for further investigation.
+
+### 3. Is Meta’s higher advertising spend justified by its acquisition efficiency?
+
+**Yes, based on the observed CAC.** Meta spends approximately 3.3 times as much as either TikTok or Google, but generates substantially more registrations:
+
+| Channel | Total spend (USD) | Registrations | CAC (USD) |
+| --- | ---: | ---: | ---: |
+| Google | 15,000 | 1,063 | 14.11 |
+| Meta | 50,000 | 16,104 | 3.11 |
+| TikTok | 15,000 | 2,786 | 5.38 |
+
+Meta also has the lowest CPM, indicating a lower cost per 1,000 impressions. Its higher spend is accompanied by the lowest acquisition cost in this dataset.
+
+### 4. How do the channels compare in terms of LTV/CAC?
+
+Using the provided LTV values:
+
+| Channel | CAC (USD) | Provided LTV (USD) | LTV/CAC |
+| --- | ---: | ---: | ---: |
+| Google | 14.11 | 12.40 | 0.879 |
+| Meta | 3.11 | 6.20 | 1.997 |
+| TikTok | 5.38 | 8.50 | 1.579 |
+
+**Meta has the highest LTV/CAC ratio**, at approximately **2.0**. Its provided LTV is nearly twice the advertising cost of acquiring a registered user.
+
+TikTok also has an LTV/CAC ratio above 1, at approximately **1.58**. Google has the highest LTV, but its acquisition cost exceeds that value, resulting in a ratio below 1.
+
+These comparisons indicate that Meta has the strongest acquisition economics under the provided LTV assumptions. They do not establish net profitability, since other costs are not included.
+
+### 5. Did acquisition efficiency change over time?
+
+I calculated monthly CAC for each channel to examine changes in acquisition efficiency.
+
+<details>
+<summary>SQL query: monthly CAC by channel</summary>
+
+```sql
+SELECT
+  source,
+  DATE_TRUNC(date, MONTH) AS month,
+  ROUND(SUM(spend), 3) AS total_spend,
+  SUM(registrations) AS total_registrations,
+  ROUND(
+    SUM(spend) / NULLIF(SUM(registrations), 0),
+    3
+  ) AS cac
+FROM `SQL_homework.marketing_ads_channels`
+GROUP BY source, month
+ORDER BY source, month;
+```
+
+</details>
+
+[`CAC_by_month.csv`](CAC_by_month.csv)
+
+Acquisition efficiency remained broadly stable throughout the observed period. Monthly CAC stayed close to:
+- **Meta:** $3.1.
+- **TikTok:** $5.4.
+- **Google:** $14.1.
+
+The channel ranking remained consistent, with Meta maintaining the lowest CAC.
