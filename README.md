@@ -235,3 +235,26 @@ ORDER BY 1,2;
 </details>
 
 The results were saved as [`marketing_ads_channels.csv`](marketing_ads_channels.csv)
+
+## Channel metrics for the entire period
+
+<details>
+<summary>Daily metrics</summary>
+  
+```
+SELECT
+  source, 
+  ROUND(SUM(spend), 3) AS total_spend,
+  ROUND(1000 * SUM(spend) / NULLIF(SUM(impressions), 0), 3) AS cpm,
+  ROUND(100 * SUM(clicks) / NULLIF(SUM(impressions), 0), 3) AS ctr_pct,
+  ROUND(100 * SUM(installs) / NULLIF(SUM(clicks), 0), 3) AS cr_click_install_pct,
+  ROUND(100 * SUM(registrations) / NULLIF(SUM(installs), 0), 3) AS cr_install_reg_pct,
+  ROUND(SUM(spend) / NULLIF(SUM(registrations), 0), 3) AS cac,
+  SUM(registrations) AS total_registrations
+FROM `SQL_homework.marketing_ads_channels`
+GROUP BY source
+ORDER BY source;
+```
+</details>
+
+## Results
