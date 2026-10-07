@@ -210,3 +210,4 @@ ORDER BY ad_id, date;
 ```
 </details>
 
+The results were saved as [`marketing_ads_deduplicated.csv`](marketing_ads_deduplicated.csv)
