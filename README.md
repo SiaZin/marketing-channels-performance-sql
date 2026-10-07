@@ -36,12 +36,12 @@ The analysis covers:
 1. Preparing cumulative advertising snapshots by retaining the latest record for each ad and reporting day.
 2. Aggregating daily performance metrics by marketing channel.
 3. Calculating total spend, CPM, CTR, Click → Install and Install → Registration conversion rates, and CAC.
-4. Comparing LTV/CAC across channels and examining monthly CAC trends.
-
-The results address four key questions:
--  Which channel has the lowest cost per registered user?
--  Which stage of the acquisition funnel has the lowest conversion rate?
--  Is Meta’s higher advertising spend justified by its acquisition efficiency?
--  How does channel efficiency change over time?
+4. Comparing LTV/CAC across channels and examining monthly CAC trends. The results address four key questions:
+    - Which channel has the lowest cost per registered user?
+    - Which stage of the acquisition funnel has the lowest conversion rate?
+    - Is Meta’s higher advertising spend justified by its acquisition efficiency?
+    - How does channel efficiency change over time?
 
 In this project, CAC refers to advertising spend per registered user. LTV values were provided with the dataset.
+
+## Step 1
