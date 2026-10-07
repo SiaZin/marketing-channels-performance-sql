@@ -1,12 +1,11 @@
 # SQL-marketing-channels-performance
 Marketing channels analysis using SQL in BigQuery: cumulative snapshot deduplication, acquisition funnel metrics, monthly CAC trends, and LTV/CAC comparison across Google, Meta, and TikTok.
 
-## Repository Structure
-
 ## 🔡Data
 Source: SKELAR Data Analytics Intensive (2026)
 
-`marketing_ads_raw` contains raw advertising data from TikTok, Meta, and Google.
+`marketing_ads_raw` contains raw advertising data from TikTok, Meta, and Google.\
+[`marketing_ads_raw`](marketing_ads_raw.csv)
 
 | Field | Type | Description |
 | --- | --- | --- |
@@ -27,6 +26,8 @@ __Cumulative snapshots__
 Metrics accumulate within each reporting day, with multiple snapshots recorded for the same ad. Summing all snapshots would overstate the daily totals.
 
 To obtain daily metrics, I retained the latest snapshot by `timestamp` for each `(ad_id, date)` pair. The reporting day is defined by `date`, since a snapshot loaded after midnight can still refer to the previous day - a discovered feature of the dataset.
+
+
 
 ## 📃Overview
 
