@@ -127,7 +127,7 @@ ORDER BY 1, 2;
 
 > Note: Will be using `date` rather than `DATE(timestamp)`, because for a short time after midnight, the record is still considered part of the previous day in the original table. For instance, a timestamp `'20240104 000659'` corresponds to a date `'20240103'`.
 
-## Deduplication
+## Deduplication - daily metrics
 
 To prepare daily metrics, I used two steps:
 
@@ -211,3 +211,27 @@ ORDER BY ad_id, date;
 </details>
 
 The results were saved as [`marketing_ads_deduplicated.csv`](marketing_ads_deduplicated.csv)
+
+## Daily performance metrics by marketing channel
+
+<details>
+<summary>Daily metrics</summary>
+  
+```
+--- денний spend, покази, кліки, встановлення і реєстрації по кожному каналу.
+SELECT source, 
+       date,
+       ROUND(SUM(spend),3) AS spend,
+       SUM(impressions) AS impressions,
+       SUM(clicks) AS clicks,
+       SUM(installs) AS installs,
+       SUM(registrations) AS registrations
+FROM `SQL_homework.marketing_ads_deduplicated`
+GROUP BY source, date
+ORDER BY 1,2;
+
+-- -->marketing_ads_channels
+```
+</details>
+
+The results were saved as [`marketing_ads_channels.csv`](marketing_ads_channels.csv)
