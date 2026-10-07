@@ -129,3 +129,82 @@ ORDER BY 1, 2;
 
 ## Deduplication
 
+To prepare daily metrics, I used two steps:
+
+1. **Select the final cumulative values** for each `(ad_id, date)` pair using `LAST_VALUE()`, ordered by `timestamp`. The explicit window frame includes all snapshots for that reporting day. `SELECT DISTINCT` then reduces the output to one row per ad per day.
+2. **Calculate daily increments** by subtracting the previous available reporting date’s cumulative values using `LAG()`. For the first observation of each ad, the previous value is treated as zero.
+
+<details>
+<summary>SQL query: preparing daily metrics</summary>
+```
+WITH latest_snapshot AS(
+SELECT source,
+       campaign_id,
+       adset_id,
+       ad_id,
+       timestamp,
+       date,
+       spend,
+       last_value(spend) over(
+          partition by ad_id, date 
+          order by timestamp 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING 
+          ) as day_last_spend,
+       impressions,
+        last_value(impressions) over(
+          partition by ad_id, date 
+          order by timestamp 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING 
+        ) as day_last_impressions,
+        clicks,
+        last_value(clicks) over(
+          partition by ad_id, date 
+          order by timestamp 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING 
+        ) as day_last_clicks,
+        installs,
+        last_value(installs) over(
+          partition by ad_id, date 
+          order by timestamp 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING 
+        ) as day_last_installs,
+        registrations,
+        last_value(registrations) over(
+          partition by ad_id, date 
+          order by timestamp 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING 
+        ) as day_last_registrations
+FROM `SQL_homework.marketing_ads_raw` 
+ORDER BY ad_id,timestamp
+),
+one_row_per_day AS (
+  SELECT DISTINCT
+    source,
+    campaign_id,
+    adset_id,
+    ad_id,
+    date,
+    day_last_spend,
+    day_last_impressions,
+    day_last_clicks,
+    day_last_installs,
+    day_last_registrations
+  FROM latest_snapshot
+)
+SELECT
+  source,
+  campaign_id,
+  adset_id,
+  ad_id,
+  date,
+  ROUND(day_last_spend - coalesce(LAG(day_last_spend) over (partition by ad_id order by date),0),3) AS spend,
+  day_last_impressions - coalesce(LAG(day_last_impressions) over (partition by ad_id order by date),0) AS impressions,
+  day_last_clicks - coalesce(LAG(day_last_clicks) over (partition by ad_id order by date),0) AS clicks,
+  day_last_installs - coalesce(LAG(day_last_installs) over (partition by ad_id order by date),0) AS installs,
+  day_last_registrations - coalesce(LAG(day_last_registrations) over (partition by ad_id order by date),0) AS registrations
+FROM one_row_per_day
+ORDER BY ad_id, date;
+
+-- ---> "marketing_ads_deduplicated" table created
+```
+</details>
