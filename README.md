@@ -4,8 +4,7 @@ Marketing channels analysis using SQL in BigQuery: cumulative snapshot deduplica
 ## 🔡Data
 Source: SKELAR Data Analytics Intensive (2026)
 
-`marketing_ads_raw` contains raw advertising data from TikTok, Meta, and Google.\
-[`marketing_ads_raw`](marketing_ads_raw.csv)
+[`marketing_ads_raw`](marketing_ads_raw.csv) contains raw advertising data from TikTok, Meta, and Google.
 
 | Field | Type | Description |
 | --- | --- | --- |
